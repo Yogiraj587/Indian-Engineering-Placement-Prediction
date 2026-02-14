@@ -29,11 +29,21 @@ Predict whether an Indian engineering student will get placed or not using machi
 
 
 
-## Project Structure
-Indian-Placement-Prediction/
-│
-├── data/ # Dataset files
-├── models/ # Saved ML model files (.pkl)
-├── app.py # Streamlit application
-├── requirements.txt # Python dependencies
-└── README.md # Project documentation
+
+---
+
+## How to Run
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/Yogiraj587/Indian-Engineering-Placement-Prediction.git
+cd Indian-Engineering-Placement-Prediction
+```
+
+### Install requirements
+pip install -r requirements.txt
+
+### Run
+streamlit run app.py
+
