@@ -4,6 +4,18 @@ Predict whether an Indian engineering student will get placed or not using machi
 
 ---
 
+## Dataset Description
+
+This dataset contains synthetically generated data representing engineering students from Indian colleges. This dataset contains data regarding the student such as coding skill rating, gender, backlogs count etc. The target variable is "placement_status" which indicates whether the student got placed or not.
+
+This dataset contains 5000 rows and 23 columns.
+
+This dataset consists of 2 csv files:
+1. 'indian engineering_students_placement_prediction.csv' - This file contains the main dataset with all the features.
+2. 'placement_targets.csv' - This file contains the target variable "placement_status", "salary" for each student.
+
+For this problem, I have removed the salary part and considered only the "placement_status" as the target variable for classification.
+
 ## Models Used
 
 - Logistic Regression  
