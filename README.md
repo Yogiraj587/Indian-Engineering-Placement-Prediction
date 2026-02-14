@@ -11,8 +11,10 @@ This dataset contains synthetically generated data representing engineering stud
 This dataset contains 5000 rows and 23 columns.
 
 This dataset consists of 2 csv files:
-1. 'indian engineering_students_placement_prediction.csv' - This file contains the main dataset with all the features.
-2. 'placement_targets.csv' - This file contains the target variable "placement_status", "salary" for each student.
+1. 'indian engineering_students_placement_prediction.csv' - This file contains the main dataset with all the features - 23 features
+2. 'placement_targets.csv' - This file contains the target variable "placement_status", "salary" for each student - 3 features
+
+Combining both we have got 25 features since student id is the duplicate column on both
 
 For this problem, I have removed the salary part and considered only the "placement_status" as the target variable for classification.
 
