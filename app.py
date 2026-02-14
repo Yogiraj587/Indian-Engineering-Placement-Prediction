@@ -80,7 +80,7 @@ model_selected = st.selectbox(
 # ---------------------------------------------------------
 # Model Loader with Caching
 # ---------------------------------------------------------
-@st.cache_resource(show_spinner=True)
+@st.cache_resource
 def load_selected_model(model_name):
     model_files = {
         "Logistic Regression": "model/model_logistic_regression.pkl",
