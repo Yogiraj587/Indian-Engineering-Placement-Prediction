@@ -42,8 +42,10 @@ cd Indian-Engineering-Placement-Prediction
 ```
 
 ### Install requirements
+```bash
 pip install -r requirements.txt
-
+```
 ### Run
+```bash
 streamlit run app.py
-
+```
