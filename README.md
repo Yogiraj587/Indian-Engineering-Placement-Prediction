@@ -86,3 +86,5 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
+#### You can also see it here on live
+https://indian-engineering-placement-prediction-puunh6dp8hpd959rnx4hjr.streamlit.app/
