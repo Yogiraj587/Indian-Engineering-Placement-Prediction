@@ -65,7 +65,6 @@ uploaded_file = st.file_uploader("Drag and drop your test CSV here", type=["csv"
 # Model Selection (MAIN PAGE)
 # ---------------------------------------------------------
 st.markdown("### 🤖 Select Model for Evaluation")
-
 model_selected = st.selectbox(
     "Choose a trained model",
     [
@@ -79,8 +78,9 @@ model_selected = st.selectbox(
 )
 
 # ---------------------------------------------------------
-# Model Loader
+# Model Loader with Caching
 # ---------------------------------------------------------
+@st.cache_resource(show_spinner=True)
 def load_selected_model(model_name):
     model_files = {
         "Logistic Regression": "model/model_logistic_regression.pkl",
@@ -96,8 +96,11 @@ def load_selected_model(model_name):
 # If file uploaded
 # ---------------------------------------------------------
 if uploaded_file is not None:
-
-    data = pd.read_csv(uploaded_file)
+    try:
+        data = pd.read_csv(uploaded_file)
+    except Exception as e:
+        st.error(f"Failed to read CSV: {e}")
+        st.stop()
 
     st.markdown('<div class="section-title">🔎 Dataset Preview</div>', unsafe_allow_html=True)
     st.dataframe(data.head(), width='stretch')
@@ -109,14 +112,28 @@ if uploaded_file is not None:
     X_input = data.drop("placement_status", axis=1)
     y_true = data["placement_status"]
 
-    model_pipeline = load_selected_model(model_selected)
+    # Load model safely
+    try:
+        model_pipeline = load_selected_model(model_selected)
+    except Exception as e:
+        st.error(f"Failed to load model: {e}")
+        st.stop()
 
-    y_pred = model_pipeline.predict(X_input)
+    # Predict
+    try:
+        y_pred = model_pipeline.predict(X_input)
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
+        st.stop()
 
     # Probability check for AUC
+    y_prob = None
     if hasattr(model_pipeline, "predict_proba"):
-        y_prob = model_pipeline.predict_proba(X_input)[:, 1]
-        auc_value = roc_auc_score(y_true, y_prob)
+        try:
+            y_prob = model_pipeline.predict_proba(X_input)[:, 1]
+            auc_value = roc_auc_score(y_true, y_prob)
+        except Exception:
+            auc_value = None
     else:
         auc_value = None
 
@@ -133,14 +150,12 @@ if uploaded_file is not None:
     # Display Metrics
     # ---------------------------------------------------------
     st.markdown('<div class="section-title">📊 Model Evaluation Metrics</div>', unsafe_allow_html=True)
-
     col1, col2, col3 = st.columns(3)
     col4, col5, col6 = st.columns(3)
 
     col1.metric("Accuracy", f"{accuracy:.4f}")
     col2.metric("AUC Score", f"{auc_value:.4f}" if auc_value else "N/A")
     col3.metric("Precision", f"{precision:.4f}")
-
     col4.metric("Recall", f"{recall:.4f}")
     col5.metric("F1 Score", f"{f1:.4f}")
     col6.metric("MCC Score", f"{mcc:.4f}")
@@ -149,19 +164,17 @@ if uploaded_file is not None:
     # Confusion Matrix
     # ---------------------------------------------------------
     st.markdown('<div class="section-title">🧩 Confusion Matrix</div>', unsafe_allow_html=True)
-
     cm = confusion_matrix(y_true, y_pred)
 
     fig, ax = plt.subplots()
-    ax.imshow(cm)
+    cax = ax.matshow(cm, cmap=plt.cm.Blues)
+    fig.colorbar(cax)
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            ax.text(j, i, cm[i, j], ha="center", va="center", color="red")
     ax.set_xlabel("Predicted Label")
     ax.set_ylabel("True Label")
     ax.set_title("Confusion Matrix")
-
-    for i in range(len(cm)):
-        for j in range(len(cm)):
-            ax.text(j, i, cm[i, j], ha="center", va="center")
-
     st.pyplot(fig)
 
     # ---------------------------------------------------------
