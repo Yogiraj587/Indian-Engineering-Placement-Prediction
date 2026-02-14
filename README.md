@@ -26,6 +26,21 @@ Predict whether an Indian engineering student will get placed or not using machi
 - Matthews Correlation Coefficient (MCC)  
 
 ---
+
+## Model Performance Metrics
+
+The table below shows the performance of different machine learning models on the Indian Engineering Placement dataset:
+
+| ML Model Name        | Accuracy | Precision | Recall  | F1-Score | AUC-ROC | MCC      |
+|---------------------|---------|-----------|--------|----------|---------|----------|
+| Logistic Regression  | 0.818   | 0.9095    | 0.9802 | 0.8051   | 0.8841  | 0.5338   |
+| Decision Tree        | 0.845   | 0.7214    | 0.9254 | 0.8921   | 0.9084  | 0.4076   |
+| KNN                  | 0.726   | 0.8361    | 0.9682 | 0.7053   | 0.8161  | 0.3999   |
+| Gaussian Naive Bayes | 0.772   | 0.8773    | 0.9717 | 0.7575   | 0.8514  | 0.4554   |
+| Random Forest        | 0.869   | 0.8907    | 0.9168 | 0.9327   | 0.9247  | 0.4240   |
+| XGBoost              | 0.862   | 0.8892    | 0.9161 | 0.9246   | 0.9203  | 0.4057   |
+
+
 ## Model Performance Observations
 
 | ML Model Name        | Observation about model performance |
